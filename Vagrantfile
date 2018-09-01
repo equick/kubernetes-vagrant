@@ -40,13 +40,23 @@ chown $(id -u vagrant):$(id -g vagrant) /home/vagrant/.kube/config
 
 # install pod network add-on
 export KUBECONFIG=/home/vagrant/.kube/config
-sudo -E --user=vagrant kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.10.0/Documentation/kube-flannel.yml
+#sudo -E --user=vagrant kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.10.0/Documentation/kube-flannel.yml
+sudo -E --user=vagrant kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/master/kube-flannel.yml
 EOF
 
 $node_script = <<-EOF3
 KUBEJOIN=$(grep 'kubeadm join' /vagrant/master.txt | sed 's/.*kubeadm/kubeadm/')
 eval $KUBEJOIN
 EOF3
+
+$ingress_script = <<EOF4
+kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/master/install/common/ns-and-sa.yaml
+kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/master/install/common/default-server-secret.yaml
+kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/master/install/common/nginx-config.yaml
+kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/master/install/rbac/rbac.yaml
+kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/master/install/daemon-set/nginx-ingress.yaml
+EOF4
+
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/xenial64"
@@ -67,6 +77,7 @@ Vagrant.configure("2") do |config|
       vb.memory = 1536
     end
     master01.vm.provision "shell", inline: $master_script
+    master01.vm.provision "shell", inline: $ingress_script, privileged: false
   end
 
   config.vm.define "worker01" do |worker01|
@@ -86,5 +97,9 @@ Vagrant.configure("2") do |config|
     end
     worker02.vm.provision "shell", inline: $node_script
   end
+  
 
 end
+
+echo "Run kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/master/deploy-svc-ingress.yaml"
+echo "And curl http://test.example.com/kb"
