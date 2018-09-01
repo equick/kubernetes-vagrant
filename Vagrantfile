@@ -55,6 +55,9 @@ kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/m
 kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/master/install/common/nginx-config.yaml
 kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/master/install/rbac/rbac.yaml
 kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/master/install/daemon-set/nginx-ingress.yaml
+echo "After the worker nodes come up run:"
+echo "kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/master/deploy-svc-ingress.yaml"
+echo "And curl http://test.example.com/kb"
 EOF4
 
 
@@ -101,5 +104,3 @@ Vagrant.configure("2") do |config|
 
 end
 
-echo "Run kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/master/deploy-svc-ingress.yaml"
-echo "And curl http://test.example.com/kb"
