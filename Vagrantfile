@@ -3,6 +3,14 @@
 
 # This script to install Kubernetes will get executed after we have provisioned the box 
 $script = <<-EOF
+
+# Load IPVS modules - https://github.com/kubernetes/kubernetes/blob/master/pkg/proxy/ipvs/README.md
+modprobe -- ip_vs
+modprobe -- ip_vs_rr
+modprobe -- ip_vs_wrr
+modprobe -- ip_vs_sh
+modprobe -- nf_conntrack_ipv4
+
 # Install kubernetes
 apt-get update && apt-get install -y apt-transport-https
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
@@ -55,9 +63,6 @@ kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/m
 kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/master/install/common/nginx-config.yaml
 kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/master/install/rbac/rbac.yaml
 kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/master/install/daemon-set/nginx-ingress.yaml
-echo "After the worker nodes come up run:"
-echo "kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/master/deploy-svc-ingress.yaml"
-echo "And curl http://test.example.com/kb"
 EOF4
 
 
@@ -99,6 +104,9 @@ Vagrant.configure("2") do |config|
       vb.memory = 1024
     end
     worker02.vm.provision "shell", inline: $node_script
+    worker02.vm.provision "shell", inline: "echo After the worker nodes come up run a test deployment:"
+    worker02.vm.provision "shell", inline: "echo kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/master/deploy-svc-ingress.yaml"
+    worker02.vm.provision "shell", inline: "echo And curl http://test.example.com/kb"
   end
   
 
