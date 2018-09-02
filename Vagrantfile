@@ -66,6 +66,12 @@ kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/m
 kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/master/install/daemon-set/nginx-ingress.yaml
 EOF4
 
+$msg = <<EOF5
+echo "After the worker nodes come up run a test deployment:"
+echo "kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/master/deploy-svc-ingress.yaml"
+echo "And curl http://test.example.com/kb"
+EOF5
+
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/xenial64"
@@ -105,11 +111,8 @@ Vagrant.configure("2") do |config|
       vb.memory = 1024
     end
     worker02.vm.provision "shell", inline: $node_script
-    worker02.vm.provision "shell", inline: "echo After the worker nodes come up run a test deployment:"
-    worker02.vm.provision "shell", inline: "echo kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/master/deploy-svc-ingress.yaml"
-    worker02.vm.provision "shell", inline: "echo And curl http://test.example.com/kb"
+    worker02.vm.provision "shell", inline: $msg
   end
-  
 
 end
 
