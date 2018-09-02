@@ -48,7 +48,7 @@ chown $(id -u vagrant):$(id -g vagrant) /home/vagrant/.kube/config
 
 # install pod network add-on
 export KUBECONFIG=/home/vagrant/.kube/config
-#sudo -E --user=vagrant kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.10.0/Documentation/kube-flannel.yml
+# variant of https://raw.githubusercontent.com/coreos/flannel/v0.10.0/Documentation/kube-flannel.yml
 sudo -E --user=vagrant kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/master/kube-flannel.yml
 EOF
 
@@ -115,4 +115,3 @@ Vagrant.configure("2") do |config|
   end
 
 end
-
