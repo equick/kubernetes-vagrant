@@ -58,6 +58,7 @@ eval $KUBEJOIN
 EOF3
 
 $ingress_script = <<EOF4
+# https://github.com/nginxinc/kubernetes-ingress/blob/master/docs/installation.md
 kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/master/install/common/ns-and-sa.yaml
 kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/master/install/common/default-server-secret.yaml
 kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/master/install/common/nginx-config.yaml
@@ -78,7 +79,7 @@ Vagrant.configure("2") do |config|
     vb.linked_clone = true
   end
 
-	config.vm.define "master01" do |master01|
+  config.vm.define "master01" do |master01|
     master01.vm.hostname = "master01"
     config.vm.provider "virtualbox" do |vb|
       vb.name = "master01"
