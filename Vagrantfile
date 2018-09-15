@@ -59,11 +59,11 @@ EOF3
 
 $ingress_script = <<EOF4
 # https://github.com/nginxinc/kubernetes-ingress/blob/master/docs/installation.md
-kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/nginxinc/kubernetes-ingress/master/install/common/ns-and-sa.yaml
-kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/nginxinc/kubernetes-ingress/master/install/common/default-server-secret.yaml
-kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/nginxinc/kubernetes-ingress/master/install/common/nginx-config.yaml
-kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/nginxinc/kubernetes-ingress/master/install/rbac/rbac.yaml
-kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/nginxinc/kubernetes-ingress/master/install/daemon-set/nginx-ingress.yaml
+kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/master/nginxinc/kubernetes-ingress/master/install/common/ns-and-sa.yaml
+kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/master/nginxinc/kubernetes-ingress/master/install/common/default-server-secret.yaml
+kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/master/nginxinc/kubernetes-ingress/master/install/common/nginx-config.yaml
+kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/master/nginxinc/kubernetes-ingress/master/install/rbac/rbac.yaml
+kubectl apply -f https://raw.githubusercontent.com/equick/kubernetes-vagrant/master/nginxinc/kubernetes-ingress/master/install/daemon-set/nginx-ingress.yaml
 EOF4
 
 $msg = <<EOF5
